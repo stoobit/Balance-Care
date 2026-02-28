@@ -1,0 +1,97 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "shortDescription" : "Time-series classifier",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "label",
+        "shortDescription" : ""
+      },
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "labelProbabilities",
+        "shortDescription" : ""
+      }
+    ],
+    "storagePrecision" : "Float32",
+    "modelParameters" : [
+
+    ],
+    "specificationVersion" : 6,
+    "mlProgramOperationTypeHistogram" : {
+      "Concat" : 3,
+      "Ios16.mul" : 2,
+      "Ios16.sub" : 1,
+      "Transpose" : 3,
+      "Ios16.sigmoid" : 2,
+      "Ios16.conv" : 3,
+      "Ios16.add" : 2,
+      "Ios16.relu" : 5,
+      "Ios16.reduceMean" : 3,
+      "Ios16.linear" : 5,
+      "Ios16.lstm" : 1,
+      "Ios16.gatherNd" : 1,
+      "Ios16.batchNorm" : 3,
+      "Tile" : 2,
+      "Ios16.reshape" : 12,
+      "Ios16.softmax" : 1
+    },
+    "computePrecision" : "Mixed (Float32, Float64, Int32)",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "12.0",
+      "tvOS" : "15.0",
+      "visionOS" : "1.0",
+      "watchOS" : "8.0",
+      "iOS" : "15.0",
+      "macCatalyst" : "15.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_mlProgram"
+    },
+    "inputSchema" : [
+      {
+        "dataType" : "Float32",
+        "hasShapeFlexibility" : "1",
+        "isOptional" : "0",
+        "shapeFlexibility" : "100...2000 × 3",
+        "shapeRange" : "[[100, 2000], [3, 3]]",
+        "formattedType" : "MultiArray (Float32 100 × 3)",
+        "type" : "MultiArray",
+        "shape" : "[100, 3]",
+        "name" : "input",
+        "shortDescription" : ""
+      },
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Int32",
+        "formattedType" : "MultiArray (Int32 1)",
+        "shortDescription" : "",
+        "shape" : "[1]",
+        "name" : "sequenceLength",
+        "type" : "MultiArray"
+      }
+    ],
+    "classLabels" : [
+      "somewhatstable",
+      "stable",
+      "unstable",
+      "verystable"
+    ],
+    "generatedClassName" : "BalanceScoreClassifier",
+    "userDefinedMetadata" : {
+
+    },
+    "method" : "predict"
+  }
+]
