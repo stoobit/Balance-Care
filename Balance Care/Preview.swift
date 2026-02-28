@@ -1,22 +1,30 @@
 import SwiftUI
 import SwiftData
 
+import Analytics
+
 fileprivate let colorScheme: ColorScheme = .dark
 
 #Preview("Overview") {
-    createPreview(view: .home)
+    createPreview {
+        ContentView(selection: .home)
+    }
 }
 
 #Preview("Balance") {
-    createPreview(view: .balance)
+    createPreview {
+        ContentView(selection: .balance)
+    }
 }
 
 #Preview("Exercises") {
-    createPreview(view: .exercises)
+    createPreview {
+        ContentView(selection: .exercises)
+    }
 }
 
 @MainActor
-func createPreview(view: TabValue) -> any View {
+fileprivate func createPreview<Content: View>(view: () -> Content) -> some View {
     let container: ModelContainer = {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try! ModelContainer(
@@ -40,9 +48,10 @@ func createPreview(view: TabValue) -> any View {
         return container
     }()
     
-    return ContentView(selection: view)
+    return view()
         .modelContainer(container)
         .preferredColorScheme(colorScheme)
+        .environment(Analytics(key: .empty))
 }
 
 let example: String =

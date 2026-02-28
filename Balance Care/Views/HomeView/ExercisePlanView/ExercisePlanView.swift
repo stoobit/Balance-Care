@@ -3,7 +3,10 @@ import SwiftUI
 import SwiftData
 import TipKit
 
+import Analytics
+
 struct ExercisePlanView: View {
+    @Environment(Analytics.self) var analytics
     @Environment(ActivityManager.self) var activity
     @Environment(ExerciseManager.self) var exercise
     
@@ -15,7 +18,6 @@ struct ExercisePlanView: View {
     var balanceChecks: [BalanceCheckWrapper]
     
     @State var selectedExercise: ExerciseModel?
-    @State var currentAction: ActionType = .waiting
     @State var showCheck: Bool = false
 
     @State var showInfo: Bool = false
@@ -76,14 +78,14 @@ struct ExercisePlanView: View {
         } header: {
             Text("Exercise Plan")
         } footer: {
-            if currentAction == .waiting, infoText != Text(verbatim: .empty) {
+            if activity.currentAction == .waiting, infoText != Text(verbatim: .empty) {
                 infoText
             }
         }
         
-        if currentAction != .waiting {
+        if activity.currentAction != .waiting {
             Section {
-                ActionButton(type: currentAction, action: action)
+                ActionButton(type: activity.currentAction, action: action)
                     .popoverTip(tip, arrowEdge: .top)
             }
             .listSectionSpacing(15)

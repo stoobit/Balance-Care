@@ -1,42 +1,44 @@
 import SwiftUI
 import TipKit
 
+import Analytics
+
 extension ExercisePlanView {
     func setAction() {
         defer {
-            if currentAction == .waiting {
+            if activity.currentAction == .waiting {
                 setFooter()
             }
         }
         
         if activity.currentWeek.balanceChecks().isEmpty {
-            currentAction = .balanceCheck
+            activity.currentAction = .balanceCheck
             return
         }
         
         guard let day = activity.currentDay else {
-            currentAction = .waiting
+            activity.currentAction = .waiting
             return
         }
         
         let calendar = Calendar.current
         if calendar.component(.weekday, from: Date()) == 2, day.check == nil {
-            currentAction = .balanceCheck
+            activity.currentAction = .balanceCheck
             return
         }
         
         let time = activity.time()
         
         if let check = day.check, time == activity.time(for: check.date) {
-            currentAction = .waiting
+            activity.currentAction = .waiting
             return
         }
         if day.exercises.times.contains(time) == false, let action = time?.action {
-            currentAction = action
+            activity.currentAction = action
             return
         }
         
-        currentAction = .waiting
+        activity.currentAction = .waiting
     }
     
     func setFooter() {
@@ -83,7 +85,11 @@ extension ExercisePlanView {
     func action() {
         tip.invalidate(reason: .actionPerformed)
         
-        switch currentAction {
+        analytics.track("Primary Action", properties: [
+            "type": activity.currentAction.title
+        ])
+        
+        switch activity.currentAction {
         case .balanceCheck:
             showCheck = true
         default:

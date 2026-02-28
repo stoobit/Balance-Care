@@ -8,7 +8,7 @@ struct ContentView: View {
     var initialDate: Date = .initial
     
     @Query(sort: [SortDescriptor(\Day.date)], animation: .default)
-    private var days: [Day]
+    var days: [Day]
     
     @Query(sort: [
         SortDescriptor(\BalanceCheckWrapper.balanceCheck.date, order: .reverse)
@@ -19,15 +19,19 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.modelContext) private var context
     
-    @State private var appleIntelligence = AppleIntelligence()
-    @State private var onboarding = OnboardingManager()
-    @State private var exercises = ExerciseManager()
-    @State private var activity = ActivityManager()
-    @State private var balance = BalanceManager()
-    @State private var tab = TabManager()
+    @State var appleIntelligence = AppleIntelligence()
+    @State var onboarding = OnboardingManager()
+    @State var exercises = ExerciseManager()
+    @State var activity = ActivityManager()
+    @State var balance = BalanceManager()
+    @State var tab = TabManager()
     
     private var selection: TabValue? = nil
-    init(selection: TabValue? = nil) { self.selection = selection }
+    private var initializeDays: Bool? = true
+    init(selection: TabValue? = nil, initializeDays: Bool? = true) {
+        self.selection = selection
+        self.initializeDays = initializeDays
+    }
     
     var body: some View {
         TabView(selection: $tab.current) {
@@ -76,8 +80,15 @@ struct ContentView: View {
         }
         
         // Days
+#if DEBUG
+        if let initializeDays, initializeDays {
+            let result = activity.initialize(with: context)
+            onboarding.showErrorAlert = result
+        }
+#else
         let result = activity.initialize(with: context)
         onboarding.showErrorAlert = result
+#endif
         
         load()
     }

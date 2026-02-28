@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Observable final class ActivityManager {
-    let abbreviations = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    var currentAction: ActionType = .waiting
     
     var currentDay: Day?
     var currentWeek: [Day] = []
@@ -13,6 +13,7 @@ import SwiftData
     var exerciseFrequencyRange: [Day] = []
     
     var ratings: [Week] = []
+    let abbreviations = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     
     @discardableResult
     public func initialize(with context: ModelContext) -> Bool {
