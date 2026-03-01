@@ -3,6 +3,7 @@ import StoreKit
 
 struct TipView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showThanks: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -20,6 +21,9 @@ struct TipView: View {
                         HeartView(opacity: 1.0)
                     }
                 }
+                .onInAppPurchaseCompletion { product, result in
+                    onIAPCompletion(product: product, result: result)
+                }
             }
             .productViewStyle(.compact)
             .productDescription(.hidden)
@@ -29,6 +33,14 @@ struct TipView: View {
                     Button("Close", systemImage: "xmark") {
                         dismiss()
                     }
+                }
+            }
+            .alert(
+                "Thank you for your support!",
+                isPresented: $showThanks
+            ) {
+                Button(role: .close) {
+                    showThanks = false
                 }
             }
         }
@@ -42,6 +54,30 @@ struct TipView: View {
                     .secondaryAccent
                     .opacity(opacity)
             )
+    }
+    
+    private func onIAPCompletion(
+        product: Product, result: Result<Product.PurchaseResult, any Error>
+    ) {
+        Task { @MainActor in
+            switch result {
+            case .success(let success):
+                switch success {
+                case .success(let transaction):
+                    switch transaction {
+                    case .verified(let transaction):
+                        showThanks = true
+                        await transaction.finish()
+                    default:
+                        return
+                    }
+                default:
+                    return
+                }
+            case .failure(_):
+                return
+            }
+        }
     }
 }
 

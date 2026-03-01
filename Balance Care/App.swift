@@ -20,7 +20,10 @@ struct Application: App {
             OrientationWrapper {
                 ContentView()
                     .environment(analytics)
-                    .onChange(of: scenePhase, analyticsScenePhaseChange)
+                    .onChange(
+                        of: scenePhase,
+                        analyticsScenePhaseChange
+                    )
             }
             .modelContainer(for: [
                 Day.self,
