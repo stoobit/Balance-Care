@@ -3,11 +3,14 @@ import SwiftData
 
 import Analytics
 
-fileprivate let colorScheme: ColorScheme = .dark
+fileprivate let colorScheme: ColorScheme = .light
 
 #Preview("Overview") {
     createPreview {
-        ContentView(selection: .home)
+        let view = ContentView(selection: .home)
+        view.onboarding.showSheet = false
+        
+        return view
     }
 }
 

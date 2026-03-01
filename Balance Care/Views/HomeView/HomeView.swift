@@ -13,6 +13,7 @@ struct HomeView: View {
     @AppStorage("InitialDate")
     var initialDate: Date = .initial
     
+    @State private var showTip: Bool = false
     @State private var showSources: Bool = false
     @State private var showSettings: Bool = false
     
@@ -35,6 +36,9 @@ struct HomeView: View {
             .animation(.default, value: score)
             .defaultViewStyle()
             .navigationTitle("Overview")
+            .sheet(isPresented: $showTip) {
+                TipView()
+            }
             .sheet(isPresented: $showSources) {
                 SourcesView()
             }
@@ -43,6 +47,7 @@ struct HomeView: View {
             }
             .toolbar {
                 HomeViewToolbar(
+                    showTip: $showTip,
                     showSources: $showSources,
                     showSettings: $showSettings,
                 )

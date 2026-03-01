@@ -146,8 +146,3 @@ struct ContentView: View {
 #endif
     }
 }
-
-#Preview("Main Preview") {
-    ContentView()
-        .modelContainer(for: Day.self, inMemory: true)
-}

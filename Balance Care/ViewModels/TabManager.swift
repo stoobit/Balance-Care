@@ -9,6 +9,8 @@ enum TabValue: String {
     case balance
     case exercises
     
+    case tip
+    
     var title: String {
         return self.rawValue.capitalized
     }
