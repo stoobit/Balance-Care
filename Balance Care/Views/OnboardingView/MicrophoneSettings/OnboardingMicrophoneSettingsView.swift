@@ -72,7 +72,7 @@ struct OnboardingMicrophoneSettingsView: View {
             .blurOpacity(!askPermission)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle(AppName)
+        .navigationTitle("Balance Care")
         .navigationSubtitle("Balance Check")
     }
     

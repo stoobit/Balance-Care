@@ -23,7 +23,7 @@ let cards: [AboutModel] = [
         title: "Train Your Balance",
         image: "figure.cross.training",
         description: """
-                     Even though aging and conditions like polyneuropathy can make balance harder, these challenges can be improved with targeted exercises. \(AppName) guides you through simple routines that strengthen stability, boost confidence, and reduce the risk of falls – helping you stay active and independent longer.
+                     Even though aging and conditions like polyneuropathy can make balance harder, these challenges can be improved with targeted exercises. Balance Care guides you through simple routines that strengthen stability, boost confidence, and reduce the risk of falls – helping you stay active and independent longer.
                      """
     ),
     AboutModel(

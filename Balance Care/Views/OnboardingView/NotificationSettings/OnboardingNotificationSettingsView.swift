@@ -31,7 +31,7 @@ struct OnboardingNotificationSettingsView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(AppName)
+                .navigationTitle("Balance Care")
                 .navigationSubtitle("Notifications")
             }
         }

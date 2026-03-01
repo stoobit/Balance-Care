@@ -10,9 +10,7 @@ import Analytics
 @main
 struct Application: App {
     @Environment(\.scenePhase) private var scenePhase
-    @State private var analytics = Analytics(
-        key: "5ef538394df9d9c666812d2c237f35c6"
-    )
+    @State private var analytics = Analytics(key: KEY)
     
     var body: some Scene {
         WindowGroup {
@@ -43,7 +41,6 @@ struct Application: App {
     }
 }
 
-let AppName: String = "Balance Care"
 extension Color {
    static var secondaryAccentColor: Color {
         return Color("SecondaryAccentColor")

@@ -45,7 +45,7 @@ struct OnboardingView: View {
                     }
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
-                .navigationTitle(AppName)
+                .navigationTitle("Balance Care")
                 .navigationSubtitle("About")
             }
             .navigationDestination(isPresented: $manager.showMicrophoneSettings) {

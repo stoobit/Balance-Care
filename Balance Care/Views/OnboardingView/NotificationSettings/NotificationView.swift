@@ -18,7 +18,7 @@ struct NotificationPreview: View {
                 .shadow(color: Color.primary.opacity(0.1), radius: 1)
             
             VStack(alignment: .leading) {
-                Text(AppName)
+                Text("Balance Care")
                     .foregroundStyle(Color.primary)
                     .font(.footnote.bold())
                 
