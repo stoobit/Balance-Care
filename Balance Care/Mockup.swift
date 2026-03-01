@@ -53,9 +53,18 @@ fileprivate func createPreview<Content: View>(view: () -> Content) -> some View 
                     model.score = .unstable
                 }
                 
-                if let date = Calendar.current.date(
-                    byAdding: .weekOfYear, value: -week, to: .now
-                ) { model.date = date }
+                let calendar = Calendar.current
+                
+                let hour = (7...16).randomElement()!
+                let minute = (0...59).randomElement()!
+                
+                if let date = calendar.date(byAdding: .weekOfYear, value: -week, to: .now),
+                   let date = calendar.date(bySetting: .hour, value: hour, of: date),
+                   let date = calendar.date(bySetting: .minute, value: minute, of: date)
+                {
+                    model.date = date
+                }
+                
                 
                 if let data = example.data(using: .utf8) {
                     let measurements = try JSONDecoder()

@@ -42,13 +42,13 @@ struct BalanceCheckView: View {
                         .multilineTextAlignment(.leading)
                         .scenePadding()
                     
-                    #if DEBUG
-                    if state != .finished {
-                        Button("Simulator: Tap to Continue") {
-                            DEBUGTAP()
-                        }
-                    }
-                    #endif
+//                    #if DEBUG
+//                    if state != .finished {
+//                        Button("Simulator: Tap to Continue") {
+//                            DEBUGTAP()
+//                        }
+//                    }
+//                    #endif
                 }
                 
                 Text(state.description)

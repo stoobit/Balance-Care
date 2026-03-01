@@ -1,6 +1,6 @@
 import Foundation
 
-nonisolated struct BalanceCheckModel: Identifiable, Codable, Sendable {
+struct BalanceCheckModel: Identifiable, Codable, Sendable {
     var id: UUID = UUID()
     var user: UUID? = UUID()
     
