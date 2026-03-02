@@ -1,10 +1,13 @@
 import SwiftUI
 
+import Analytics
+
 struct ExerciseActionWrapper<Content: View>: View {
-    @Environment(ActivityManager.self) var activity
     @Environment(\.dismiss) private var dismiss
-    
     @State private var confirmationDialog: Bool = false
+    
+    @Environment(ActivityManager.self) var activity
+    @Environment(Analytics.self) var analytics
     
     var exercise: ExerciseModel? = nil
     
@@ -55,6 +58,10 @@ struct ExerciseActionWrapper<Content: View>: View {
         activity.currentDay?.exercises.append(
             ExerciseModel(exercise: exercise, time: time)
         )
+        
+        analytics.track("Exercise", properties: [
+            "name": exercise.name
+        ])
         
         dismiss()
     }

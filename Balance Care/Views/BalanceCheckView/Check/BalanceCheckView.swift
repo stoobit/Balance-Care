@@ -1,10 +1,14 @@
 import SwiftUI
 
+import Analytics
+
 struct BalanceCheckView: View {
     @Binding var isPresented: Bool
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
+    
+    @Environment(Analytics.self) var analytics
     
     @Environment(TabManager.self) var tab
     @Environment(BalanceManager.self) var balance

@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftData
 
+import Analytics
+
 extension BalanceCheckView {
     func scoreCheck() {
         Task {
@@ -34,6 +36,12 @@ extension BalanceCheckView {
                 
                 // Select Check in Balance Tab
                 balance.set(motion.balanceCheck)
+                
+                // Analytics
+                analytics.track("Balance Check", properties: [
+                    "score": wrapper.balanceCheck.score.title,
+                    "progress": wrapper.balanceCheck.progress?.accessibilityTitle ?? "none"
+                ])
             } catch {
                 print("ML:", error)
             }

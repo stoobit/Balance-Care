@@ -1,8 +1,12 @@
 import SwiftUI
 
+import Analytics
+
 struct ExerciseOverviewWrapper<Content: View>: View {
-    @Environment(ActivityManager.self) var activity
     @State var confirmationDialog: Bool = false
+    
+    @Environment(ActivityManager.self) var activity
+    @Environment(Analytics.self) var analytics
     
     var exercise: ExerciseModel? = nil
     @ViewBuilder var content: Content
@@ -38,6 +42,11 @@ struct ExerciseOverviewWrapper<Content: View>: View {
     
     func markAsCompleted(exercise: ExerciseModel) {
         activity.currentDay?.exercises.append(exercise)
+        
+        analytics.track("Exercise", properties: [
+            "name": exercise.name
+        ])
+        
         confirmationDialog = false
     }
 }

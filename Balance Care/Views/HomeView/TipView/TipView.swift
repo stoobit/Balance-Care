@@ -1,8 +1,12 @@
 import SwiftUI
 import StoreKit
 
+import Analytics
+
 struct TipView: View {
+    @Environment(Analytics.self) private var analytics
     @Environment(\.dismiss) private var dismiss
+    
     @State private var showThanks: Bool = false
     
     var body: some View {
@@ -67,6 +71,10 @@ struct TipView: View {
                     switch transaction {
                     case .verified(let transaction):
                         showThanks = true
+                        analytics.track("Tip", properties: [
+                            "type": product.displayName
+                        ])
+                        
                         await transaction.finish()
                     default:
                         return
