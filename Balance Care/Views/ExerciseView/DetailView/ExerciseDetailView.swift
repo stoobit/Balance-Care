@@ -1,7 +1,11 @@
 import SwiftUI
 import QuickLook
 
+import Analytics
+
 struct ExerciseDetailView: View {
+    @Environment(Analytics.self) private var analytics
+    
     @Environment(\.colorSchemeContrast) private var contrast
     @Environment(\.dynamicTypeSize) private var typeSize
     
@@ -94,6 +98,10 @@ struct ExerciseDetailView: View {
             }
             
             Button("View in AR", systemImage: "arkit") {
+                analytics.track("AR Opened", properties: [
+                    "model": exercise.exercise.name,
+                ])
+                
                 showTimer = false
                 url = Bundle.main.url(
                     forResource: exercise.exercise.model, withExtension: "usdz"
