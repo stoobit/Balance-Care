@@ -6,6 +6,7 @@ import SwiftData
     }
     
     var balanceCheck: BalanceCheckModel
+    var state: BalanceUploadState?
 }
 
 extension [BalanceCheckWrapper] {
