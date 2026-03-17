@@ -15,9 +15,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		BB2030442F4A7A5700691A9B /* Balance Care */ = {
+		BB2030442F4A7A5700691A9B /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Balance Care";
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,7 +37,7 @@
 		BB2030392F4A7A5700691A9B = {
 			isa = PBXGroup;
 			children = (
-				BB2030442F4A7A5700691A9B /* Balance Care */,
+				BB2030442F4A7A5700691A9B /* App */,
 				BB2030432F4A7A5700691A9B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,7 +66,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				BB2030442F4A7A5700691A9B /* Balance Care */,
+				BB2030442F4A7A5700691A9B /* App */,
 			);
 			name = "Balance Care";
 			packageProductDependencies = (
@@ -269,6 +269,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Balance-Care-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to display the Virtual Body in AR.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app requires local network access for debugging purposes only. If you are seeing this message and you are not a developer, you can deny the request.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to listen to your voice commands.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires motion data access to make a Balance Check.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app requires access to speech recognition to start a balance check using your voice command.";
@@ -310,6 +311,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Balance-Care-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to display the Virtual Body in AR.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "This app requires local network access for debugging purposes only. If you are seeing this message and you are not a developer, you can deny the request.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "This app requires microphone access to listen to your voice commands.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "This app requires motion data access to make a Balance Check.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "This app requires access to speech recognition to start a balance check using your voice command.";
