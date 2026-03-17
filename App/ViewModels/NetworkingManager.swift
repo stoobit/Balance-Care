@@ -1,7 +1,15 @@
 import Foundation
 
+#if DEBUG
+import Playgrounds
+#endif
+
 @Observable final class NetworkingManager {
-    private let url = "https://www.stoobit.com"
+    #if DEBUG
+    private let url = "http://127.0.0.1:8080"
+    #else
+    private let url = "https://"
+    #endif
     
     private let key: String = "balance.identifier"
     private let id: String
@@ -49,4 +57,32 @@ import Foundation
         case urlFailed
         case invalidStatusCode(statusCode: Int)
     }
+}
+
+// MARK: - Testing
+
+#Playground {
+    let networking = NetworkingManager()
+    
+    Task {
+        try await networking.upload(balanceCheckModel())
+    } catch: { error in
+        print(error)
+    }
+}
+
+internal func balanceCheckModel() -> BalanceCheckModel {
+    var model = BalanceCheckModel(score: .somewhatStable)
+    do {
+        if let data = example.data(using: .utf8) {
+            let measurements = try JSONDecoder()
+                .decode([BalanceMeasurement].self, from: data)
+            
+            model.measurements = measurements
+        }
+    } catch {
+        print(error)
+    }
+    
+    return model
 }
