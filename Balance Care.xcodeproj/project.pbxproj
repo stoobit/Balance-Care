@@ -12,6 +12,7 @@
 
 /* Begin PBXFileReference section */
 		BB2030422F4A7A5700691A9B /* Balance Care.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Balance Care.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB5F60992F6A197C005BF29C /* Server */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Server; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,6 +38,7 @@
 		BB2030392F4A7A5700691A9B = {
 			isa = PBXGroup;
 			children = (
+				BB5F60992F6A197C005BF29C /* Server */,
 				BB2030442F4A7A5700691A9B /* App */,
 				BB2030432F4A7A5700691A9B /* Products */,
 			);
