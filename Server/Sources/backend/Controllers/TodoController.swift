@@ -19,6 +19,10 @@ struct TodoController: RouteCollection {
 
     @Sendable
     func create(req: Request) async throws -> TodoDTO {
+        guard req.headers.first(where: { $0.name == "authentication" })?.value == KEY else {
+            throw Abort(.forbidden)
+        }
+        
         let todo = try req.content.decode(TodoDTO.self).toModel()
 
         try await todo.save(on: req.db)
