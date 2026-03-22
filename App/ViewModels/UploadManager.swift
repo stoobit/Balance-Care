@@ -4,7 +4,7 @@ import Foundation
 import Playgrounds
 #endif
 
-@Observable final class NetworkingManager {
+@Observable final class UploadManager {
     #if DEBUG
     private let url = "http://127.0.0.1:8080"
     #else
@@ -35,7 +35,7 @@ import Playgrounds
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let payload = NetworkingPayload(id: id, measurements: check.measurements)
+        let payload = NetworkingPayload(userID: id, measurements: check.measurements)
         request.httpBody = try JSONEncoder().encode(payload)
         
         let (_, response) = try await URLSession.shared.data(for: request)
@@ -49,7 +49,7 @@ import Playgrounds
     }
     
     private struct NetworkingPayload: Codable {
-        var id: String
+        var userID: String
         var measurements: [BalanceMeasurement]
     }
     
