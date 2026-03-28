@@ -1,0 +1,55 @@
+program(1.0)
+[buildInfo = dict<tensor<string, []>, tensor<string, []>>({{"coremlc-component-MIL", "3510.2.1"}, {"coremlc-version", "3500.32.1"}})]
+{
+    func main<ios16>(tensor<fp32, [?, 3]> input, tensor<int32, [1]> sequenceLength) [FlexibleShapeInformation = tuple<tuple<tensor<string, []>, dict<tensor<string, []>, tensor<int32, [?]>>>, tuple<tensor<string, []>, dict<tensor<string, []>, list<tensor<int32, [2]>, ?>>>>((("DefaultShapes", {{"input", [100, 3]}}), ("RangeDims", {{"input", [[100, 2000], [3, 3]]}})))] {
+            tensor<fp32, [1, ?, 3]> reshape_0 = reshape(shape = tensor<int32, [3]>([1, -1, 3]), x = input);
+            tensor<fp32, [?, 1, 3]> transpose_0 = transpose(perm = tensor<int32, [3]>([1, 0, 2]), x = reshape_0);
+            tensor<fp32, [?, 1, 32]> lstm_0, tensor<fp32, [1, 32]> lstm_0_cell_state, tensor<fp32, [1, 32]> lstm_0_hidden_state = lstm(activation = tensor<string, []>("tanh"), cell_activation = tensor<string, []>("tanh"), direction = tensor<string, []>("forward"), initial_c = tensor<fp32, [1, 32]>([[0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0]]), initial_h = tensor<fp32, [1, 32]>([[0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0, 0x0p+0]]), output_sequence = tensor<bool, []>(true), recurrent_activation = tensor<string, []>("sigmoid"), weight_hh = tensor<fp32, [128, 32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(64))), weight_ih = tensor<fp32, [128, 3]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(16512))), x = transpose_0);
+            tensor<fp32, [1, ?, 32]> transpose_1 = transpose(perm = tensor<int32, [3]>([1, 0, 2]), x = lstm_0);
+            tensor<int32, [1]> element_wise_0 = sub(x = sequenceLength, y = tensor<int32, [1]>([1]));
+            tensor<int32, [1, 1, 1]> reshape_1 = reshape(shape = tensor<int32, [3]>([1, 1, 1]), x = element_wise_0);
+            tensor<fp32, [1, 1, 32]> gather_0 = gather_nd(batch_dims = tensor<int32, []>(1), indices = reshape_1, x = transpose_1);
+            tensor<fp32, [1, 32]> reshape_2 = reshape(shape = tensor<int32, [2]>([1, 32]), x = gather_0);
+            tensor<fp32, [1, 3, ?]> transpose_2 = transpose(perm = tensor<int32, [3]>([0, 2, 1]), x = reshape_0);
+            tensor<fp32, [1, 3, 1, ?]> reshape_3 = reshape(shape = tensor<int32, [4]>([1, 3, 1, -1]), x = transpose_2);
+            tensor<fp32, [1, 32, 1, ?]> conv_0 = conv(bias = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(21248))), dilations = tensor<int32, [2]>([1, 1]), groups = tensor<int32, []>(1), pad = tensor<int32, [4]>([0, 0, 0, 0]), pad_type = tensor<string, []>("custom"), strides = tensor<int32, [2]>([1, 1]), weight = tensor<fp32, [32, 3, 1, 8]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(18112))), x = reshape_3);
+            tensor<fp32, [1, 32, ?]> reshape_4 = reshape(shape = tensor<int32, [3]>([1, 32, -1]), x = conv_0);
+            tensor<fp32, [1, 32, ?]> batch_norm_0 = batch_norm(beta = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(21440))), epsilon = tensor<fp32, []>(0x1.4f8b58p-17), gamma = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(21632))), mean = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(21824))), variance = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(22016))), x = reshape_4);
+            tensor<fp32, [1, 32, ?]> relu_0 = relu(x = batch_norm_0);
+            tensor<fp32, [1, 32]> reduce_0 = reduce_mean(axes = tensor<int32, [1]>([2]), keep_dims = tensor<bool, []>(false), x = relu_0);
+            tensor<fp32, [1, 2]> linear_0 = linear(weight = tensor<fp32, [2, 32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(22208))), x = reduce_0);
+            tensor<fp32, [1, 2]> relu_1 = relu(x = linear_0);
+            tensor<fp32, [1, 32]> linear_1 = linear(weight = tensor<fp32, [32, 2]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(22528))), x = relu_1);
+            tensor<fp32, [1, 32]> sigmoid_0 = sigmoid(x = linear_1);
+            tensor<fp32, [1, 32, 1]> reshape_5 = reshape(shape = tensor<int32, [3]>([1, 32, 1]), x = sigmoid_0);
+            tensor<int32, [1]> element_wise_1 = add(x = sequenceLength, y = tensor<int32, [1]>([-7]));
+            tensor<int32, [3]> concat_0 = concat(axis = tensor<int32, []>(0), interleave = tensor<bool, []>(false), values = (tensor<int32, [2]>([1, 1]), element_wise_1));
+            tensor<fp32, [1, 32, ?]> tile_0 = tile(reps = concat_0, x = reshape_5);
+            tensor<fp32, [1, 32, ?]> element_wise_2 = mul(x = relu_0, y = tile_0);
+            tensor<fp32, [1, 32, 1, ?]> reshape_6 = reshape(shape = tensor<int32, [4]>([1, 32, 1, -1]), x = element_wise_2);
+            tensor<fp32, [1, 64, 1, ?]> conv_1 = conv(bias = tensor<fp32, [64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(63872))), dilations = tensor<int32, [2]>([1, 1]), groups = tensor<int32, []>(1), pad = tensor<int32, [4]>([0, 0, 0, 0]), pad_type = tensor<string, []>("custom"), strides = tensor<int32, [2]>([1, 1]), weight = tensor<fp32, [64, 32, 1, 5]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(22848))), x = reshape_6);
+            tensor<fp32, [1, 64, ?]> reshape_7 = reshape(shape = tensor<int32, [3]>([1, 64, -1]), x = conv_1);
+            tensor<fp32, [1, 64, ?]> batch_norm_1 = batch_norm(beta = tensor<fp32, [64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(64192))), epsilon = tensor<fp32, []>(0x1.4f8b58p-17), gamma = tensor<fp32, [64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(64512))), mean = tensor<fp32, [64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(64832))), variance = tensor<fp32, [64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(65152))), x = reshape_7);
+            tensor<fp32, [1, 64, ?]> relu_2 = relu(x = batch_norm_1);
+            tensor<fp32, [1, 64]> reduce_1 = reduce_mean(axes = tensor<int32, [1]>([2]), keep_dims = tensor<bool, []>(false), x = relu_2);
+            tensor<fp32, [1, 4]> linear_2 = linear(weight = tensor<fp32, [4, 64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(65472))), x = reduce_1);
+            tensor<fp32, [1, 4]> relu_3 = relu(x = linear_2);
+            tensor<fp32, [1, 64]> linear_3 = linear(weight = tensor<fp32, [64, 4]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(66560))), x = relu_3);
+            tensor<fp32, [1, 64]> sigmoid_1 = sigmoid(x = linear_3);
+            tensor<fp32, [1, 64, 1]> reshape_8 = reshape(shape = tensor<int32, [3]>([1, 64, 1]), x = sigmoid_1);
+            tensor<int32, [1]> element_wise_3 = add(x = element_wise_1, y = tensor<int32, [1]>([-4]));
+            tensor<int32, [3]> concat_1 = concat(axis = tensor<int32, []>(0), interleave = tensor<bool, []>(false), values = (tensor<int32, [2]>([1, 1]), element_wise_3));
+            tensor<fp32, [1, 64, ?]> tile_1 = tile(reps = concat_1, x = reshape_8);
+            tensor<fp32, [1, 64, ?]> element_wise_4 = mul(x = relu_2, y = tile_1);
+            tensor<fp32, [1, 64, 1, ?]> reshape_9 = reshape(shape = tensor<int32, [4]>([1, 64, 1, -1]), x = element_wise_4);
+            tensor<fp32, [1, 32, 1, ?]> conv_2 = conv(bias = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(92288))), dilations = tensor<int32, [2]>([1, 1]), groups = tensor<int32, []>(1), pad = tensor<int32, [4]>([0, 0, 0, 0]), pad_type = tensor<string, []>("custom"), strides = tensor<int32, [2]>([1, 1]), weight = tensor<fp32, [32, 64, 1, 3]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(67648))), x = reshape_9);
+            tensor<fp32, [1, 32, ?]> reshape_10 = reshape(shape = tensor<int32, [3]>([1, 32, -1]), x = conv_2);
+            tensor<fp32, [1, 32, ?]> batch_norm_2 = batch_norm(beta = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(92480))), epsilon = tensor<fp32, []>(0x1.4f8b58p-17), gamma = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(92672))), mean = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(92864))), variance = tensor<fp32, [32]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(93056))), x = reshape_10);
+            tensor<fp32, [1, 32, ?]> relu_4 = relu(x = batch_norm_2);
+            tensor<fp32, [1, 32]> reduce_2 = reduce_mean(axes = tensor<int32, [1]>([2]), keep_dims = tensor<bool, []>(false), x = relu_4);
+            tensor<fp32, [1, 64]> concat_2 = concat(axis = tensor<int32, []>(1), interleave = tensor<bool, []>(false), values = (reshape_2, reduce_2));
+            tensor<fp32, [1, 4]> linear_4 = linear(bias = tensor<fp32, [4]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(94336))), weight = tensor<fp32, [4, 64]>(BLOBFILE(path = tensor<string, []>("@model_path/weights/weight.bin"), offset = tensor<uint64, []>(93248))), x = concat_2);
+            tensor<fp32, [1, 4]> softmax_0 = softmax(axis = tensor<int32, []>(1), x = linear_4);
+            tensor<fp32, [4]> reshape_11 = reshape(shape = tensor<int32, [1]>([4]), x = softmax_0);
+        } -> (reshape_11);
+}
