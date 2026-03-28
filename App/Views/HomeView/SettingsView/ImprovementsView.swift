@@ -10,7 +10,7 @@ struct ImprovementsView: View {
     @Environment(Analytics.self) private var analyticy
     
     @AppStorage("analytics.share.state")
-    private var shareBalanceData: Bool = false
+    private var shareBalanceData: Bool = true
     
     var body: some View {
         Section {

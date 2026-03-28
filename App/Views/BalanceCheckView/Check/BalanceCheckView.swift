@@ -23,7 +23,7 @@ struct BalanceCheckView: View {
     @State var audio = AudioManager()
     
     @AppStorage("analytics.share.state")
-    var shareBalanceData: Bool = false
+    var shareBalanceData: Bool = true
     
     var context: Self.Context
     var wrappers: [BalanceCheckWrapper]
